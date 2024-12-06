@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+    width: 250px;
+    height: auto;
+}
+
+.footer {
+  margin-bottom: 5px;
+  border-top: 1px solid #ddd;
+  position: fixed; bottom: 0; width: 100%;
+  font-size: 11px;
+}
+
+
+.title {
+    text-align: center;
+    font-size: 24px;
+}
+
+.dashboard-info {
+    text-align: right;
+}
+
+
+main {
+    padding: 20px;
+}
+
+.customer_list {
+    font-size: 20px;
+}
+
+.customer_list li {
+    margin-bottom: 30px;
+}
+
+.revenue_list {
+    font-size: 20px;
+}
+
+.revenue_list li{
+    margin-bottom: 30px;
+}
+
+.index_list li{
+    margin-bottom: 30px;
+}
+
+.welcome {
+    font-size: 20px;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 10px 20px; /* adds internal spacing */
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px; /* rounds the corners */
+    font-size: 16px;
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* makes darker blue on hover */
+}
+
+
+.month-style {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-style {
+    flex: 1;
+}
+
+.occupancy {
+    text-align: right;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+.back-button-month {
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #007bff; /
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.back-button-month:hover {
+    background-color: #0056b3;
+}

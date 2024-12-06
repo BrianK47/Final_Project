@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="{{ url_for('home') }}" style="text-decoration:none; color:inherit;">
+                <img src="{{ url_for('static', filename='images/last_resort.png') }}" alt="Logo"</img>
+            </a>
+        </div>
+        <div class="title">
+            <h1><a href="{{ url_for('home') }}" style="text-decoration:none; color:inherit;">Your Insights</a></h1>
+        </div>
+        <div class="dashboard-info">
+            <h2>Analytics Dashboard</h2>
+            <p class="date">{{ current_date }}</p>
+        </div>
+    </header>
+    <main>
+        {% block container %}
+        <!-- Content will go here -->
+        {% endblock %}
+    </main>
+  <footer class="footer">
+    <!-- Insert footer -->
+    <p> © 2024 Last Resort Hotels. All rights reserved. This dashboard is for internal use only and contains proprietary and confidential information. Unauthorized access, use, or disclosure of this data is strictly prohibited and may result in disciplinary action or legal consequences. For questions or support, contact support@lastresorthotels.org. Use of this system is subject to company policies and guidelines.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block container %}
+<div class="month-style">
+    <div class="form-style">
+        <p style="font-weight: bold;">Filter by hotel:</p>
+        <form action="{{ url_for('month') }}" method="POST">
+            <label for="hotel">Hotel:</label>
+            <select id="hotel" name="hotel">
+                <option value="">Select</option>
+                {% for hotel in hotels %}
+                    {% if selected_hotel == hotel[1] %}
+                    <option value="{{ hotel[1] }}" selected>{{ hotel[0] }}</option>
+                    {% else %}
+                    <option value="{{ hotel[1] }}">{{ hotel[0] }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <button type="submit" style="margin-right: 100px;">Continue</button>
+        </form>
+    </div>
+
+    {% if hotel_info %}
+    <div class="occupancy">
+        <h3>Occupancy Rate for {{ hotel_info[0] }}</h3>
+        <p>{{ "{:.2f}".format(hotel_info[1]) }}%</p>
+    </div>
+    {% endif %}
+
+
+    <div>
+        <a href="{{url_for('home')}}">
+            <button class="back-button-month">Back Button</button>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

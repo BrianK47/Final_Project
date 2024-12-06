@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<h2> Top 3 Most Revenue-Generating Hotel Chains This Year</h2>
+<ol class="revenue_list">
+    {% for hotel in top_hotels %}
+    <li>{{ hotel[0] }}: ${{ "{:,.2f}".format(hotel[1]) }}</li>
+    {% endfor %}
+</ol>
+
+<a href="{{ url_for('home') }}"
+   <button class="back-button">Back</button>
+</a>
+
+
+
+
+
+
+{% endblock %}
+
+

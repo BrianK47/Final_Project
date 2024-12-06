@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<h2> Top 5 Highest Paying Customers All-Time</h2>
+<ol class="customer_list">
+    {% for customer in customers %}
+    <li>{{ customer[1] }}: ${{ "{:,.2f}".format(customer[2]) }}</li>
+    {% endfor %}
+</ol>
+
+<a href="{{ url_for('home') }}"
+   <button class="back-button">Back</button>
+</a>
+
+
+
+
+
+
+{% endblock %}

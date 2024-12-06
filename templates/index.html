@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<body>
+    <h2> Welcome to the Last Resort Analytics Dashboard </h2>
+    <div class="welcome">
+        <p> Please select one of the following queries:</p>
+        <ul class="index_list">
+            <li><a href="{{ url_for('customers') }}">Who are our 5 highest paying customers all-time?</a></li>
+            <li><a href="{{ url_for('revenue') }}">Which of our hotel chains had the highest revenue this year?</a></li>
+            <li><a href="{{ url_for('services') }}">Which five services are most popular across the conglomerate this year?</a></li>
+            <li><a href="{{ url_for('occupancy') }}">Which three of our hotels have the highest occupancy rate?</a></li>
+            <li><a href="{{ url_for('month') }}">What month of the year do customers spend the least amount of money at our hotels?</a></li>
+        </ul>
+    </div>
+{% endblock %}

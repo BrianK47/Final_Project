@@ -4,8 +4,9 @@ import mysql
 from flask import Flask, render_template, request, redirect, url_for, make_response
 import mysql.connector
 
-#import datetime
+#import datetime and calendar
 from datetime import datetime
+import calendar
 
 # instantiate the app
 app = Flask(__name__)
@@ -94,28 +95,87 @@ def services():
     return render_template('services.html',
                            current_date=current_date, top_services=top_services)
 
-@app.route('/occupancy')
-def occupancy():
-    current_date = datetime.now().strftime("%B %d, %Y")
-    return render_template('occupancy.html',
-                           current_date=current_date)
 """
-@app.route('/month')
+@app.route('/month', methods=['GET','POST'])
 def month():
     current_date = datetime.now().strftime("%B %d, %Y")
 
     cursor = mydb.cursor()
-    query = SELECT hotelName FROM hotel;
+    query = SELECT MONTH(reservation.startDate) AS month, SUM(bill.amount) AS totalSpending
+                FROM bill
+                JOIN reservation
+                ON bill.reservationId = reservation.reservationId
+                GROUP BY MONTH (reservation.startDate)
+                ORDER BY totalSpending LIMIT 1;
+         
+
     cursor.execute(query)
-    hotels = cursor.fetchall()
+
+    #extract the month number
+    query_result = cursor.fetchone()
+    month_number = query_result[0]
+    month_name = calendar.month_name[month_number]
 
     return render_template('month.html',
-                           current_date=current_date, hotels=hotels)
-
+                           current_date=current_date, query_result = query_result, month_name = month_name)
 """
 
-@app.route('/month', methods=['GET', 'POST'])
+@app.route('/month', methods=['GET','POST'])
 def month():
+    current_date = datetime.now().strftime("%B %d, %Y")
+    cursor = mydb.cursor()
+
+    hotel_query = "SELECT hotelName, hotelId FROM hotel;"
+    cursor.execute(hotel_query)
+    hotels = cursor.fetchall()
+
+    years = ['2024','2023','2022']
+
+
+    hotel_info = None
+    selected_hotel = None
+    selected_year = None
+    selected_hotel_name = None
+
+    if request.method == 'POST':
+        selected_hotel = int(request.form.get('hotel'))
+        selected_hotel_name = next((hotel[0] for hotel in hotels if hotel[1] == selected_hotel),None)
+        selected_year = request.form.get('year')
+
+        if selected_hotel and selected_year:
+            start_date = f"{selected_year}-01-01"
+            end_date = f"{selected_year}-12-31"
+
+            query = """
+                            SELECT MONTH(reservation.startDate) AS month, SUM(bill.amount) AS totalSpending
+                            FROM bill
+                            JOIN reservation
+                            ON bill.reservationId = reservation.reservationId
+                            WHERE reservation.startDate BETWEEN %s AND %s
+                            AND reservation.hotelId = %s
+                            GROUP BY MONTH(reservation.startDate)
+                            ORDER BY totalSpending ASC
+                            LIMIT 1;
+                        """
+            cursor.execute(query, (start_date, end_date, selected_hotel))
+            hotel_info = cursor.fetchone()
+
+    return render_template(
+        'month.html',
+        current_date = current_date,
+        hotels=hotels,
+        years=years,
+        selected_hotel=selected_hotel,
+        selected_year=selected_year,
+        hotel_info=hotel_info,
+        selected_hotel_name = selected_hotel_name
+    )
+
+
+
+
+@app.route('/occupancy', methods=['GET', 'POST'])
+def occupancy():
     current_date = datetime.now().strftime("%B %d, %Y")
     cursor = mydb.cursor()
 
@@ -128,7 +188,7 @@ def month():
     selected_hotel = None  # Track the selected hotel
 
     if request.method == 'POST':  # Handle form submission
-        selected_hotel = request.form.get('hotel')  # Get the selected hotel ID
+        selected_hotel = int(request.form.get('hotel')) # Get the selected hotel ID
 
         if selected_hotel:  # Fetch occupancy rate for the selected hotel
             query = """SELECT hotel.hotelName, 
@@ -153,7 +213,7 @@ def month():
 
     # Pass all necessary data to the template
     return render_template(
-        'month.html',
+        'occupancy.html',
         current_date=current_date,
         hotels=hotels,
         hotel_info=hotel_info,

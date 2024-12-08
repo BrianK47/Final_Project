@@ -79,7 +79,7 @@ main {
 }
 
 
-.month-style {
+.occupancy-style {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,6 +94,13 @@ main {
     text-align: right;
     font-weight: bold;
     margin-left: 20px;
+}
+
+.month {
+    text-align: right;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-bottom: 90px;
 }
 
 .back-button-month {

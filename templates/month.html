@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% block container %}
-<div class="month-style">
+
+<div class="occupancy-style">
     <div class="form-style">
+       <h2>What month was revenue lowest?</h2>
         <p style="font-weight: bold;">Filter by hotel:</p>
         <form action="{{ url_for('month') }}" method="POST">
             <label for="hotel">Hotel:</label>
-            <select id="hotel" name="hotel">
+            <select id="hotel" name="hotel" required>
                 <option value="">Select</option>
                 {% for hotel in hotels %}
                     {% if selected_hotel == hotel[1] %}
@@ -15,23 +17,71 @@
                     {% endif %}
                 {% endfor %}
             </select>
+         <br><br>
+         <form action="{{ url_for('month') }}" method="POST">
+            <label for="year">Year:</label>
+            <select id="year" name="year" required>
+            <option value="" {% if not selected_year %}selected{% endif %}>Select</option>
+               {% for year in years %}
+                  {% if selected_year == year %}
+                  <option value="{{ year }}" selected>{{ year }}</option>
+                  {% else %}
+                  <option value="{{ year }}">{{ year }}</option>
+                  {% endif %}
+               {% endfor %}
+            </select>
+            <br><br>
             <button type="submit" style="margin-right: 100px;">Continue</button>
         </form>
     </div>
 
-    {% if hotel_info %}
-    <div class="occupancy">
-        <h3>Occupancy Rate for {{ hotel_info[0] }}</h3>
-        <p>{{ "{:.2f}".format(hotel_info[1]) }}%</p>
+   {% if hotel_info %}
+   <div class="month">
+        <h3>Lowest revenue month at {{selected_hotel_name}} in {{selected_year}}</h3>
+        {% if hotel_info[0] == 1 %}
+            <p>January</p>
+         {% elif hotel_info[0] == 2 %}
+            <p>Febuary</p>
+         {% elif hotel_info[0] == 3 %}
+            <p>March</p>
+         {% elif hotel_info[0] == 4 %}
+            <p>April</p>
+         {% elif hotel_info[0] == 5 %}
+            <p>May</p>
+         {% elif hotel_info[0] == 6 %}
+            <p>June</p>
+         {% elif hotel_info[0] == 7 %}
+            <p>July</p>
+         {% elif hotel_info[0] == 8 %}
+            <p>August</p>
+         {% elif hotel_info[0] == 9 %}
+            <p>September</p>
+         {% elif hotel_info[0] == 10 %}
+            <p>October</p>
+         {% elif hotel_info[0] == 11 %}
+            <p>November</p>
+         {% elif hotel_info[0] == 12 %}
+            <p>December</p>
+         {% endif %}
     </div>
     {% endif %}
 
-
-    <div>
-        <a href="{{url_for('home')}}">
-            <button class="back-button-month">Back Button</button>
-        </a>
-    </div>
+   <a href="{{url_for('home')}}" style="text-decoration: none; color: inherit;">
+   <button class="back-button-month">Back</button>
+   </a>
 
 </div>
+
 {% endblock %}
+
+
+
+<!--
+
+<h2>Month in which customers have spent the least across all chains</h2>
+<p style="font-size: 20px;">{{ month_name }}: ${{"{:,.2f}".format(query_result[1]) }}</p>
+
+<a href="{{ url_for('home') }}"
+   <button class="back-button">Back</button>
+</a>
+-->
